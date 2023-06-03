@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Logging;
+using Microsoft.AspNetCore.Http;
+using System.Threading;
 
 namespace SetupDotnet
 {
@@ -43,8 +45,6 @@ namespace SetupDotnet
                 .AddCookie("cookie", options =>
                 {
                     options.Cookie.Name = Configuration["SetupDotnet:CookieName"];
-
-                    options.Events.OnSigningOut = async e => { await e.HttpContext.RevokeUserRefreshTokenAsync(); };
                 })
                 .AddOpenIdConnect("oidc", options =>
                 {
